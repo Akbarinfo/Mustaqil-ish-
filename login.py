@@ -1,12 +1,32 @@
+import os
+import platform
+
+
 class Register:
     def __init__(self):
-        pass
+        self.menyu()
 
 ### Bosh menyu
     def menyu(self):
-        pass
+        print("""
+        Assalom-u aleykum Mehmon
 
-### Ro'yhatdan o'tish
+Ro'yhatdan o'tish      [1]
+Tizimga kirish         [2]   
+        """)
+
+        menyu = input("Kirting [1]/[2]: ").strip()
+        tmenyu = ["1", "2"]
+        while menyu not in tmenyu:
+            self.clear()
+            print("Noto'g'ri belgi kirtingiz!")
+            menyu = input("Kirting [1]/[2]: ").strip()
+        if menyu == "1":
+            self.reg()
+        else:
+            self.kirish()
+
+    ### Ro'yhatdan o'tish
     def reg(self):
         pass
 
@@ -33,5 +53,14 @@ class Register:
 ### Accountni o'chirish
     def delete(self):
         pass
+
+### Oynani tozalash
+    def clear(self):
+        if platform.system() == "Linux":
+            os.system("clear")
+        elif platform.system() == "Windows":
+            os.system("cls")
+        else:
+            print("Balki sizda MacOs,dir")
 
 window = Register()
