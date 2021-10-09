@@ -121,26 +121,66 @@ Tizimga kirish         [2]
             parol = stdiomask.getpass(prompt="Parol: ", mask='*').strip()
         self.shaxsiy()
 
-
     ### shaxsiy bolim
     def shaxsiy(self):
-        pass
+        self.clear()
+        print(f"""
+            Assalom-u aleykum {self.ism}
+    Shaxsiy bo'lim
+Shaxsiy ma'lumotlar     [1]
+Loginni o'zgartirish    [2]
+Parolni o'zgartirish    [3]
+Chiqish                 [4]
+Accountni o'chirish     [5]
+        """)
+        tanla = input("Kirting [1]/[2]/[3]/[4]/[5]: ").strip()
+        ttanla = ["1", "2", "3", "4", "5"]
+        while tanla not in ttanla:
+            self.clear()
+            self.xato()
+            tanla = input("Kirting [1]/[2]/[3]/[4]/[5]: ").strip()
+        if tanla == "1":
+            self.malumot()
+        elif tanla == "2":
+            self.ologin()
+        elif tanla == "3":
+            self.oparol()
+        elif tanla == "4":
+            self.logout()
+        else:
+            self.delete()
+
+
+### Shaxsiy Ma'lumotlar
+    def malumot(self):
+        self.clear()
+        print("Malumot")
+        self.nazad()
+
 
     ### Login o'zgartirish
     def ologin(self):
-        pass
+        self.clear()
+        print("login")
+        self.nazad()
 
     ### Parolni o'zgartirish
     def oparol(self):
-        pass
+        self.clear()
+        print("parol")
+        self.nazad()
 
     ### Tizimdan chiqish
     def logout(self):
-        pass
+        self.clear()
+        print("parol")
+        self.nazad()
 
     ### Accountni o'chirish
     def delete(self):
-        pass
+        self.clear()
+        print("parol")
+        self.nazad()
 
 ### Bazadan malumotlarni olish
     def chaqirish(self, login):
@@ -159,6 +199,15 @@ Tizimga kirish         [2]
         else:
             return False
 
+### Orqaga qaytish
+    def nazad(self):
+        nazad = input("Bosh sahifa [yes/y]: ").strip().lower()
+        tnazad = ["yes", "y"]
+        while nazad not in  tnazad:
+            self.clear()
+            self.xato()
+            nazad = input("Bosh sahifa [yes/y]: ").strip().lower()
+        self.shaxsiy()
 
     ### Error
     def xato(self):
