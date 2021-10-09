@@ -5,9 +5,9 @@ import mysql.connector
 
 mydb = mysql.connector.connect(
     host="localhost",
-    user="admin",
-    password="123456789",
-    database="user_info"
+    user="",
+    password="",
+    database=""
 )
 
 myreg = mydb.cursor()
@@ -103,6 +103,7 @@ Tizimga kirish         [2]
                       f" values('{ism}', '{login}', '{parol}', {yosh}, {oila})")
         mydb.commit()
         #### Ro'yhatdan o'tilsa
+        self.chaqirish(login)
         self.shaxsiy()
 
         ### Kirish
@@ -227,10 +228,16 @@ Oilaliymi {self.single}
     ### Accountni o'chirish
     def delete(self):
         self.clear()
-        print("parol")
-        self.nazad()
-
-### Bazadan malumotlarni olish
+        print("Akkountni o'chirish")
+        parol = stdiomask.getpass(prompt="Parolni kirting: ", mask='*').strip()
+        while self.password != parol:
+            self.clear()
+            print("Parolni xato kirtingiz!")
+            parol = stdiomask.getpass(prompt="Parolni kirting: ", mask='*').strip()
+        myreg.execute(f"delete from mustaqil where password='{self.password}'")
+        mydb.commit()
+        print("Accountingiz o'chirildi")
+    ### Bazadan malumotlarni olish
     def chaqirish(self, login):
         myreg.execute(f"select *from mustaqil where login='{login}'")
         natija = myreg.fetchall()
