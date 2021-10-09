@@ -26,6 +26,7 @@ class Register:
 
     ### Bosh menyu
     def menyu(self):
+        self.clear()
         print("""
         Assalom-u aleykum Mehmon
 
@@ -211,8 +212,17 @@ Oilaliymi {self.single}
     ### Tizimdan chiqish
     def logout(self):
         self.clear()
-        print("parol")
-        self.nazad()
+        print("Rostan bizni tark etyabsizmi?")
+        log = input("Kirting [y/n]: ").strip().lower()
+        tlog = ["yes", "y", "no", "n"]
+        while log not in tlog:
+            self.clear()
+            self.xato()
+            log = input("Kirting [y/n]: ").strip().lower()
+        if log == "yes" or log == "y":
+            self.menyu()
+        else:
+            self.shaxsiy()
 
     ### Accountni o'chirish
     def delete(self):
