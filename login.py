@@ -157,6 +157,7 @@ Accountni o'chirish     [5]
         print(f"""
         Shaxsiy Ma'lumotlar
 id {self.id}
+Loginingiz {self.login}
 Ismingiz {self.ism}
 Yoshingiz {self.age}
 Oilaliymi {self.single}
@@ -186,8 +187,26 @@ Oilaliymi {self.single}
     ### Parolni o'zgartirish
     def oparol(self):
         self.clear()
-        print("parol")
-        self.nazad()
+        print("Parol o'zgartirish")
+        joriy = stdiomask.getpass(prompt="Joriy parol: ", mask='*').strip()
+        while joriy != self.password:
+            self.clear()
+            print("Joriy parolni xato kirtingiz")
+            joriy = stdiomask.getpass(prompt="Joriy parol: ", mask='*').strip()
+        parol = stdiomask.getpass(prompt="Yangi parol: ", mask='*').strip()
+        yparol = stdiomask.getpass(prompt="Yangi parolni takrorlang: ", mask='*').strip()
+        while parol != yparol or not parol.isalnum():
+            self.clear()
+            if parol !=yparol:
+                print("Takroran parolni xato kirtingiz!")
+            else:
+                self.xato()
+            parol = stdiomask.getpass(prompt="Yangi parol: ", mask='*').strip()
+            yparol = stdiomask.getpass(prompt="Yangi parolni takrorlang: ", mask='*').strip()
+        myreg.execute(f"update mustaqil set password='{parol}' where id={self.id}")
+        mydb.commit()
+
+        self.kirish()
 
     ### Tizimdan chiqish
     def logout(self):
