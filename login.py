@@ -154,7 +154,13 @@ Accountni o'chirish     [5]
 ### Shaxsiy Ma'lumotlar
     def malumot(self):
         self.clear()
-        print("Malumot")
+        print(f"""
+        Shaxsiy Ma'lumotlar
+id {self.id}
+Ismingiz {self.ism}
+Yoshingiz {self.age}
+Oilaliymi {self.single}
+        """)
         self.nazad()
 
 
@@ -192,7 +198,10 @@ Accountni o'chirish     [5]
             self.login = login
             self.password = parol
             self.age = age
-            self.single = single
+            if single == 1:
+                self.single = "Oilaliy"
+            else:
+                self.single = "Endi to'y"
 
         if self.login == login:
             return True
