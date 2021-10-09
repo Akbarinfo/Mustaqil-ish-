@@ -1,12 +1,23 @@
 import os
 import platform
+import stdiomask
+import mysql.connector
+
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="admin",
+    password="123456789",
+    database="user_info"
+)
+
+myreg = mydb.cursor()
 
 
 class Register:
     def __init__(self):
         self.menyu()
 
-### Bosh menyu
+    ### Bosh menyu
     def menyu(self):
         print("""
         Assalom-u aleykum Mehmon
@@ -28,33 +39,94 @@ Tizimga kirish         [2]
 
     ### Ro'yhatdan o'tish
     def reg(self):
-        pass
+        self.clear()
+        print("Ro'yhatdan o'tish")
 
-### Kirish
+        ###Ismingiz kiriting
+        ism = input("Ismingiz: ").strip().title()
+        while not ism.isalpha():
+            self.clear()
+            self.xato()
+            ism = input("Ismingiz: ").strip().title()
+
+        ### login kiriting
+        login = input("Login: ").strip().title()
+        while not login.isalnum():
+            self.clear()
+            self.xato()
+            login = input("Login: ").strip().title()
+
+        ### Parol kiriting
+        parol = stdiomask.getpass(prompt="Parol: ", mask='*').strip()
+        qparol = stdiomask.getpass(prompt="Parolni takrorlang: ", mask='*').strip()
+        while parol != qparol:
+            self.clear()
+            self.xato()
+            parol = stdiomask.getpass(prompt="Parol: ", mask='*').strip()
+            qparol = stdiomask.getpass(prompt="Parolni takrorlang: ", mask='*').strip()
+
+        ### yoshingizni kirting
+        yosh = input("Yoshingiz: ").strip()
+        while not yosh.isnumeric() or int(yosh) > 150:
+            self.clear()
+            self.xato()
+            yosh = input("Yoshingiz: ").strip()
+
+        ### Oilasimisiz
+        oila = input("Oilaliymisiz [y/n]: ").strip().lower()
+        toila = ["yes", "y", "no", "n"]
+        while oila not in toila:
+            self.clear()
+            self.xato()
+            oila = input("Oilaliymisiz [y/n]: ").strip().lower()
+        if oila == "yes" or "y":
+            oila = 0
+        else:
+            oila = 1
+
+        ## Bazaga yozish
+        myreg.execute("create table if not exists mustaqil(id int unsigned auto_increment primary key,"
+                      "name varchar(30) not null,"
+                      "login varchar(30) not null,"
+                      "password varchar(30) not null,"
+                      "age int(3) not null,"
+                      "single bool default False)")
+        myreg.execute(f"insert into mustaqil(name, login, password, age, single)"
+                      f" values('{ism}', '{login}', '{parol}', {yosh}, {oila})")
+        mydb.commit()
+        #### Ro'yhatdan o'tilsa
+        self.shaxsiy()
+
+        ### Kirish
+
     def kirish(self):
         pass
 
-### shaxsiy bolim
+    ### shaxsiy bolim
     def shaxsiy(self):
         pass
 
-### Login o'zgartirish
+    ### Login o'zgartirish
     def ologin(self):
         pass
 
-### Parolni o'zgartirish
+    ### Parolni o'zgartirish
     def oparol(self):
         pass
 
-### Tizimdan chiqish
+    ### Tizimdan chiqish
     def logout(self):
         pass
 
-### Accountni o'chirish
+    ### Accountni o'chirish
     def delete(self):
         pass
 
-### Oynani tozalash
+    ### Error
+    def xato(self):
+        print("Noto'g'ri belgi kirtingiz!")
+
+    ### Oynani tozalash
     def clear(self):
         if platform.system() == "Linux":
             os.system("clear")
@@ -62,5 +134,6 @@ Tizimga kirish         [2]
             os.system("cls")
         else:
             print("Balki sizda MacOs,dir")
+
 
 window = Register()
