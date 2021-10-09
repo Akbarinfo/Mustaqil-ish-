@@ -15,6 +15,13 @@ myreg = mydb.cursor()
 
 class Register:
     def __init__(self):
+        self.id = None
+        self.ism = None
+        self.login = None
+        self.password = None
+        self.age = None
+        self.single = None
+        ###Bosh menyu
         self.menyu()
 
     ### Bosh menyu
@@ -100,7 +107,20 @@ Tizimga kirish         [2]
         ### Kirish
 
     def kirish(self):
-        pass
+        self.clear()
+        print("\t Kirish")
+        login = input("Login: ").strip().title()
+        parol = stdiomask.getpass(prompt="Parol: ", mask='*').strip()
+        while not self.chaqirish(login) or self.password != parol:
+            self.clear()
+            if self.login !=login:
+                print("Bunaqa login yo'q")
+            else:
+                self.xato()
+            login = input("Login: ").strip().title()
+            parol = stdiomask.getpass(prompt="Parol: ", mask='*').strip()
+        self.shaxsiy()
+
 
     ### shaxsiy bolim
     def shaxsiy(self):
@@ -121,6 +141,24 @@ Tizimga kirish         [2]
     ### Accountni o'chirish
     def delete(self):
         pass
+
+### Bazadan malumotlarni olish
+    def chaqirish(self, login):
+        myreg.execute(f"select *from mustaqil where login='{login}'")
+        natija = myreg.fetchall()
+        for id, name, login, parol, age, single in natija:
+            self.id = id
+            self.ism = name
+            self.login = login
+            self.password = parol
+            self.age = age
+            self.single = single
+
+        if self.login == login:
+            return True
+        else:
+            return False
+
 
     ### Error
     def xato(self):
