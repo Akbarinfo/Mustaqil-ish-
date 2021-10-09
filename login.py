@@ -163,11 +163,24 @@ Oilaliymi {self.single}
         """)
         self.nazad()
 
-
-    ### Login o'zgartirish
+### Login o'zgartirish
     def ologin(self):
         self.clear()
-        print("login")
+        print("Loginni O'zgartirish")
+        joriy = input("Joriy Loginngiz: ").strip().title()
+        while self.login != joriy:
+            self.clear()
+            print("Joriy loginni xato kirtingiz:")
+            joriy = input("Joriy Loginngiz: ").strip().title()
+        login = input("Yangi Login kirting: ").strip().title()
+        while not login.isalnum():
+            self.clear()
+            self.xato()
+            login = input("Yangi Login kirting: ").strip().title()
+        myreg.execute(f"update mustaqil set login='{login}' where id={self.id}")
+        mydb.commit()
+        self.clear()
+        print("Muvafaqiyatli o'zgartildi\n")
         self.nazad()
 
     ### Parolni o'zgartirish
